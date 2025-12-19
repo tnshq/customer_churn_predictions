@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Churn Prediction</title>
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: #2a2a2a;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    h1 {
+      text-align: center;
+      color: #4CAF50;
+      margin-bottom: 10px;
+    }
+    h4 {
+      text-align: center;
+      color: #888;
+      margin-top: 0;
+    }
+    .form-section {
+      margin: 20px 0;
+      text-align: center;
+    }
+    label {
+      color: #ddd;
+      margin: 0 10px;
+    }
+    input[type="checkbox"] {
+      margin: 5px;
+    }
+    select, input[type="number"] {
+      padding: 8px;
+      margin: 5px;
+      border-radius: 5px;
+      border: 1px solid #555;
+      background-color: #333;
+      color: white;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 20px 0;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .result {
+      text-align: center;
+      margin: 30px 0;
+      font-size: 18px;
+      color: #4CAF50;
+      font-weight: bold;
+    }
+    .images {
+      text-align: center;
+      margin: 20px 0;
+    }
+    img {
+      margin: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Customer Churn Prediction</h1>
+
+    <form action="{{ url_for('predict')}}" method="post">
+      
+      <div class="form-section">
+        <input type="checkbox" id="SeniorCitizen" name="SeniorCitizen" value="1">
+        <label for="SeniorCitizen">Senior Citizen</label>
+        
+        <input type="checkbox" id="Partner" name="Partner" value="1">
+        <label for="Partner">Has a partner</label>
+        
+        <input type="checkbox" id="Dependents" name="Dependents" value="1">
+        <label for="Dependents">Has dependents</label>
+      </div>
+
+      <div class="form-section">
+        <input type="checkbox" id="PaperlessBilling" name="PaperlessBilling" value="1">
+        <label for="PaperlessBilling">Paperless Billing</label>
+        
+        <input type="checkbox" id="PhoneService" name="PhoneService" value="1">
+        <label for="PhoneService">Phone Service</label>
+        
+        <input type="checkbox" id="MultipleLines" name="MultipleLines" value="1">
+        <label for="MultipleLines">Multiple Lines</label>
+      </div>
+
+      <div class="form-section">
+        <input type="checkbox" id="OnlineSecurity" name="OnlineSecurity" value="1">
+        <label for="OnlineSecurity">Online Security</label>
+        
+        <input type="checkbox" id="OnlineBackup" name="OnlineBackup" value="1">
+        <label for="OnlineBackup">Online Backup</label>
+        
+        <input type="checkbox" id="DeviceProtection" name="DeviceProtection" value="1">
+        <label for="DeviceProtection">Device Protection</label>
+      </div>
+
+      <div class="form-section">
+        <input type="checkbox" id="TechSupport" name="TechSupport" value="1">
+        <label for="TechSupport">Tech Support</label>
+        
+        <input type="checkbox" id="StreamingTV" name="StreamingTV" value="1">
+        <label for="StreamingTV">Streaming TV</label>
+        
+        <input type="checkbox" id="StreamingMovies" name="StreamingMovies" value="1">
+        <label for="StreamingMovies">Streaming Movies</label>
+      </div>
+
+      <div class="form-section">
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+          <option value="0">Male</option>
+          <option value="1">Female</option>
+        </select>
+
+        <label for="InternetService">Internet Service:</label>
+        <select id="InternetService" name="InternetService">
+          <option value="0">No</option>
+          <option value="1">DSL</option>
+          <option value="2">Fiber optic</option>
+        </select>
+
+        <label for="Contract">Contract:</label>
+        <select id="Contract" name="Contract">
+          <option value="0">Month-to-Month</option>
+          <option value="1">One-Year</option>
+          <option value="2">Two-Year</option>
+        </select>
+
+        <label for="PaymentMethod">Payment Method:</label>
+        <select id="PaymentMethod" name="PaymentMethod">
+          <option value="0">Bank Transfer (Auto)</option>
+          <option value="1">Credit Card (Auto)</option>
+          <option value="2">Electronic Check</option>
+          <option value="3">Mailed Check</option>
+        </select>
+      </div>
+
+      <div class="form-section">
+        <input type="number" min="0" step="0.01" name="MonthlyCharges" 
+               placeholder="Monthly Charges ($)" required="required" />
+        <input type="number" min="0" name="Tenure" 
+               placeholder="Tenure (Months)" required="required" />
+      </div>
+
+      <div class="form-section">
+        <button type="submit">Predict Churn</button>
+      </div>
+    </form>
+
+    {% if prediction_text %}
+    <div class="result">
+      {{ prediction_text }}
+    </div>
+    {% endif %}
+
+    <div class="images">
+      {% if url_3 %}
+      <img src="data:image/png;base64,{{url_3}}" alt="Hazard Curve" height="180" width="233"/>
+      {% endif %}
+      {% if url_1 %}
+      <img src="data:image/png;base64,{{url_1}}" alt="Gauge Chart" height="180" width="233"/>
+      {% endif %}
+      {% if url_4 %}
+      <img src="data:image/png;base64,{{url_4}}" alt="Survival Curve" height="180" width="233"/>
+      {% endif %}
+    </div>
+
+    <div class="images">
+      {% if url_2 %}
+      <img src="data:image/png;base64,{{url_2}}" alt="SHAP Values" height="150" width="711"/>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
