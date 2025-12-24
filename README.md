@@ -6,18 +6,6 @@ A comprehensive end-to-end machine learning project that predicts customer churn
 ![Flask](https://img.shields.io/badge/Flask-3.0.0-green)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3.2-orange)
 
-## 🌟 What Makes This Project Unique
-
-This isn't just another churn prediction model—it's a complete data science solution that bridges the gap between statistical analysis and business application:
-
-- 🧪 **Three comprehensive Jupyter notebooks** documenting the entire data science workflow
-- 🎯 **Multiple ML algorithms** compared and optimized for best performance
-- 📈 **Survival analysis** using Cox Proportional Hazards models to understand customer lifetime
-- 🔍 **SHAP explainability** to make black-box models interpretable for business stakeholders
-- 🌐 **Production-ready Flask web app** with real-time predictions and beautiful visualizations
-- ⚡ **Cross-platform compatible** with conda environment management
-
----
 
 ## 📋 Table of Contents
 
